@@ -37,9 +37,30 @@ class VCListNotes: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.setNotes(notes: listNotes[indexPath.row])
         cell.buDelete.tag = indexPath.row
         cell.buDelete.addTarget(self, action: #selector(buDeletePress(_:)), for: .touchUpInside)
+        
+        cell.buEdit.tag = indexPath.row
+        cell.buEdit.addTarget(self, action: #selector(buEditPress(_:)), for: .touchUpInside)
         return cell
     }
     
+    @objc func buEditPress(_ sender: UIButton){
+        print("index \(sender.tag)")
+        performSegue(withIdentifier: "EditorAddSegue", sender: listNotes[sender.tag])
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditorAddSegue" {
+            if let AddorEdit = segue.destination as? ViewController{
+                if let mynote = sender as? MyNotes{
+                    AddorEdit.editNotes = mynote
+                }
+            }
+        }
+    }
+    
+    @IBAction func buAdd(_ sender: Any) {
+        performSegue(withIdentifier: "EditorAddSegue", sender: nil)
+    }
     @objc func buDeletePress(_ sender: UIButton){
         print("index \(sender.tag)")
         
@@ -56,10 +77,6 @@ class VCListNotes: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }catch{
             print("Cannot read from database")
         }
-    }
-    
-    @IBAction func buBack(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
     }
     
 }

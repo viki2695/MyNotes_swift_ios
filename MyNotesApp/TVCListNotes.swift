@@ -14,6 +14,8 @@ class TVCListNotes: UITableViewCell {
     @IBOutlet weak var laDetails: UITextView!
     @IBOutlet weak var laTitle: UILabel!
     @IBOutlet weak var buDelete: UIButton!
+    @IBOutlet weak var buEdit: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
